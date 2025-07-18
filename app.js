@@ -10,8 +10,13 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname,'public')));
 app.use(cookieParser());
 
+app.get('/home', function(req,res){
+    res.render('home');
+})
 
-
+app.get('/try', function(req,res){
+    res.render('tryerror');
+})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT);

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MetaMinds</title>
+    <link rel="stylesheet" href="/output.css" /> <!-- Correct path -->
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("translate-x-full");
+      }
+    </script>
+  </head>
+  <body class="bg-gray-900 text-white">
+    <!-- Navbar -->
+    <nav class="flex items-center justify-between p-4 bg-black text-yellow-400">
+      <h1 class="text-xl font-bold">MetaMinds</h1>
+      <div class="">
+        <button onclick="toggleSidebar()" class="text-white">☰</button>
+      </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed right-0 top-0 h-full w-48 bg-black text-white transform translate-x-full transition-transform duration-300 ease-in-out md:hidden z-50">
+      <div class="flex justify-end p-4">
+        <button onclick="toggleSidebar()">✕</button>
+      </div>
+      <ul class="flex flex-col gap-4 p-4">
+        <li><a href="#">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative">
+      <img src="/assets/hero.jpg" alt="hero" class="w-full h-64 object-cover" />
+      <div class="absolute bottom-0 left-0 w-full bg-yellow-400 py-2 px-4">
+        <h2 class="text-black font-semibold">MetaMinds</h2>
+      </div>
+    </section>
+
+    <!-- Description -->
+    <section class="p-4">
+      <p class="text-sm leading-relaxed">
+        <!-- Paste your long description content here -->
+        Welcome to MetaMinds, where we focus on igniting minds and ideas through ...
+      </p>
+    </section>
+
+    <!-- Feedback Bar -->
+    <section class="overflow-x-hidden whitespace-nowrap bg-purple-700 py-2">
+      <div class="inline-block animate-marquee px-4 text-white">
+        What People Say | Event 1 | Feedback 1 | More feedback...
+      </div>
+    </section>
+    <style>
+      @keyframes marquee {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+      .animate-marquee {
+        display: inline-block;
+        white-space: nowrap;
+        animation: marquee 15s linear infinite;
+      }
+    </style>
+
+    <!-- Info Cards -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+      <div class="bg-yellow-400 text-black p-4 rounded-lg">
+        <p>Card 1 content here...</p>
+      </div>
+      <div class="bg-yellow-400 text-black p-4 rounded-lg">
+        <p>Card 2 content here...</p>
+      </div>
+    </section>
+
+    <!-- About Us -->
+    <section id="about" class="bg-gray-800 text-white p-4">
+      <h2 class="text-xl font-semibold mb-2">ABOUT US</h2>
+      <p class="mb-4">We’re building MetaMinds to power learning & growth...</p>
+      <img src="/assets/about.jpg" alt="About" class="w-32 h-32 rounded-full" />
+    </section>
+
+    <!-- Contact Us -->
+    <section id="contact" class="bg-gray-900 text-white p-4">
+      <h2 class="text-xl font-semibold mb-2">CONTACT US</h2>
+      <p>Email: metaminds@email.com</p>
+      <p>Phone: +91-1234567890</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-yellow-400 text-center p-4">
+      © 2025 MetaMinds
+    </footer>
+  </body>
+</html>
