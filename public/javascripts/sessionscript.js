@@ -1,0 +1,130 @@
+const phaseheading = document.getElementById("phaseheading");
+const timeleft = document.getElementById("timeleft");
+const pausebtn = document.getElementById("pausebtn");
+const bgvideo = document.getElementById("bgvideo");
+const canvasEle = document.getElementById("doodlecanvas");
+
+let timerInterval, paused = false, remainingTime = 0, phase = 0, canvas;
+
+const config = {
+    firstSessionTime:25 * 60,
+    breakTime: 5 * 60,
+    secondSessionTime: 25*60,
+    breakType: "doodling",
+    theme : "focus",
+};
+
+const videos = {
+    breathing: "/animations/breathing.mp4",
+    session: "/animations/breathing.mp4",
+    doodling: "/animations/breathing.mp4",
+    walking:  "/animations/breathing.mp4",
+};
+
+const sounds = {
+    session : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
+    break : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
+    tick : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
+    breath : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
+};
+
+pausebtn.addEventListener("click",() => {
+    paused = !paused;
+    pausebtn.innerText = paused ? "Resume" : "Pause";
+    if(!paused) StartTimer();
+});
+
+function updateTime(){
+    const min = String(Math.floor(remainingTime/60)).padStart(2,"0");
+    const sec = String(remainingTime % 60).padStart(2,"0");
+    timeleft.innerText = `${min}:${sec}`;
+}
+
+function playMedia(videoSrc, audioKey){
+    bgvideo.src = videoSrc;
+    bgvideo.play();
+    stopAllAudio();
+    if(audioKey) sounds[audioKey].play();
+}
+
+function stopAllAudio(){
+    Object.values(sounds).forEach(sound => sound.stop());
+}
+
+function startTimer(){
+    clearInterval(timerInterval);
+    timerInterval = setInterval(()=>{
+        if(!paused && remainingTime >0){
+            remainingTime--;
+            updateTime();
+
+            if(remainingTime == 5) sounds.tick.play();
+        }
+        else if(remainingTime <= 0){
+            clearInterval(timerInterval);
+            nextPhase();
+        }
+    },1000);
+}
+
+function showCanvas(show){
+    canvasEle.classList.toggle("hidden", !show);
+    if(show && !canvas){
+        canvas = new fabric.canvas("doodleCanvas", {
+            isDrawingMode: true,
+            backgroundColor: 'rgba(0,0,0,0.1)'
+        });
+        canvas.freeDrawingBrush.width = 3;
+        canvas.freeDrawingBrush.color = "#ffffff";
+    }
+}
+
+function nextPhase(){
+    switch(phase){
+        case 0:
+            startBreadthing("Before Session 1"); break;
+        case 1:
+            startSession("Session 1", config.firstSessionTime); break;
+        case 2:
+            startBreak(); break;
+        case 3:
+            startBreadthing("Before Session 2"); break;
+        case 4:
+            startSession("Session 2", config.secondSessionTime); break;
+        case 5:
+            phaseheading.innerText = "ALL Sessions are Completed! 🔥🥳";
+            stopAllAudio(); return;
+    }
+    phase++;
+}
+
+function startBreathing(label){
+    phaseheading.innerText = `1 min Deep Breathing - ${label}`;
+    playMedia(videos.breathing, "breath");
+    remainingTime = 60;
+    updateTime();
+    startTimer();
+}
+
+function startSession(label, duration){
+    phaseheading.innerText = `${label}`;
+    showCanvas(false);
+    playMedia(videos.session, "session");
+    remainingTime = duration;
+    updateTime();
+    startTimer();
+}
+
+function startBreak(){
+    phaseheading.innerText = `🍵Break - ${config.breakType}`;
+    const video = config.breakType === "doodling" ? videos.doodling : videos.walking;
+    showCanvas(config.breakType === "doodling");
+    playMedia(video, "break");
+    remainingTime = config.breakTime;
+    updateTime();
+    startTimer();
+}
+
+nextPhase();
+
+
