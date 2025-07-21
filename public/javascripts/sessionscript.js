@@ -1,7 +1,7 @@
 const phaseheading = document.getElementById("phaseheading");
 const timeleft = document.getElementById("timeleft");
 const pausebtn = document.getElementById("pausebtn");
-const bgvideo = document.getElementById("bgvideo");
+const bgVideo = document.getElementById("bgVideo");
 const canvasEle = document.getElementById("doodlecanvas");
 
 let timerInterval, paused = false, remainingTime = 0, phase = 0, canvas;
@@ -11,28 +11,32 @@ const config = {
     breakTime: 5 * 60,
     secondSessionTime: 25*60,
     breakType: "doodling",
-    theme : "focus",
+    theme : "rainfall",
 };
 
 const videos = {
-    breathing: "/animations/breathing.mp4",
-    session: "/animations/breathing.mp4",
-    doodling: "/animations/breathing.mp4",
-    walking:  "/animations/breathing.mp4",
+    breathing: "/assets/videos/session/theme_rainfall/rainfall_metaminds.mp4",
+    session: "/assets/videos/session/theme_rainfall/rainfall_metaminds.mp4",
+    doodling: "/assets/videos/session/theme_rainfall/rainfall_metaminds.mp4",
+    walking:  "/assets/videos/session/theme_rainfall/rainfall_metaminds.mp4",
 };
+
+// const videos = {
+//     breathing: "/videos/session/theme_rainfall/rainfall_metaminds.mp4",
+//     session: "/videos/session/theme_rainfall/rainfall_metaminds.mp4",
+//     doodling: "/videos/session/theme_rainfall/rainfall_metaminds.mp4",
+//     walking:  "/videos/session/theme_rainfall/rainfall_metaminds.mp4",
+// };
 
 const sounds = {
-    session : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
-    break : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
-    tick : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
-    breath : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
+    session : new Howl({src:["/assets/audios/session/theme_Rainfall/rainfall_sound_metaminds.mp3"], loop:true}),
+    // break : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
+    // tick : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
+    // breath : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
+    break : new Howl({src:["/assets/audios/session/theme_Rainfall/rainfall_sound_metaminds.mp3"], loop:true}),
+    tick : new Howl({src:["/assets/audios/session/theme_Rainfall/rainfall_sound_metaminds.mp3"], loop:true}),
+    breath : new Howl({src:["/assets/audios/session/theme_Rainfall/rainfall_sound_metaminds.mp3"], loop:true}),
 };
-
-pausebtn.addEventListener("click",() => {
-    paused = !paused;
-    pausebtn.innerText = paused ? "Resume" : "Pause";
-    if(!paused) StartTimer();
-});
 
 function updateTime(){
     const min = String(Math.floor(remainingTime/60)).padStart(2,"0");
@@ -41,8 +45,8 @@ function updateTime(){
 }
 
 function playMedia(videoSrc, audioKey){
-    bgvideo.src = videoSrc;
-    bgvideo.play();
+    bgVideo.src = videoSrc;
+    bgVideo.play();
     stopAllAudio();
     if(audioKey) sounds[audioKey].play();
 }
@@ -67,6 +71,22 @@ function startTimer(){
     },1000);
 }
 
+pausebtn.addEventListener("click",() => {
+    paused = !paused;
+    pausebtn.innerText = paused ? "Resume" : "Pause";
+    if(paused){
+        stopAllAudio();
+        bgVideo.pause();
+    }
+    else{
+        // bgVideo.play();
+        // if(audioKey) sounds[audioKey].play();
+        playMedia(videos.session, "session");
+
+    }
+    if(!paused) startTimer();
+});
+
 function showCanvas(show){
     canvasEle.classList.toggle("hidden", !show);
     if(show && !canvas){
@@ -82,13 +102,13 @@ function showCanvas(show){
 function nextPhase(){
     switch(phase){
         case 0:
-            startBreadthing("Before Session 1"); break;
+            startBreathing("Before Session 1"); break;
         case 1:
             startSession("Session 1", config.firstSessionTime); break;
         case 2:
             startBreak(); break;
         case 3:
-            startBreadthing("Before Session 2"); break;
+            startBreathing("Before Session 2"); break;
         case 4:
             startSession("Session 2", config.secondSessionTime); break;
         case 5:
