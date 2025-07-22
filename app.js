@@ -9,8 +9,23 @@ const config = require('config');
 require('dotenv').config();
 
 
+const flash = require("connect-flash");
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+app.use(session({
+  secret: 'process.env.EXPRESS_SESSION_SECRET',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+  }),
+}));
+app.use(flash());
+
+
 const index = require('./routes/index.js');
 const SessionRouter = require('./routes/SessionRouter.js');
+const userRouter = require('./routes/UserRouter.js')
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -24,7 +39,7 @@ app.get('/', function(req,res){
 
 app.use('/index',index);
 app.use('/Session',SessionRouter);
-
+app.use('/users', userRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT);

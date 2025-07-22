@@ -12,11 +12,13 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "config": "^4.0.1",
+    "connect-flash": "^0.1.1",
     "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-session": "^1.18.2",
     "fabric": "^6.7.0",
     "howler": "^2.2.4",
     "jsonwebtoken": "^9.0.2",

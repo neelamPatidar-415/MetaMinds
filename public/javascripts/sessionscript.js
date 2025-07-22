@@ -1,10 +1,12 @@
 const phaseheading = document.getElementById("phaseheading");
 const timeleft = document.getElementById("timeleft");
+const totaltime = document.getElementById("totaltime");
 const pausebtn = document.getElementById("pausebtn");
 const bgVideo = document.getElementById("bgVideo");
 const canvasEle = document.getElementById("doodlecanvas");
+const timerbar = document.getElementById("timerbar");
 
-let timerInterval, paused = false, remainingTime = 0, phase = 0, canvas;
+let timerInterval, paused = false, remainingTime = 0, phase = 0, canvas, totalduration = 0;
 
 const config = {
     firstSessionTime:25 * 60,
@@ -21,18 +23,8 @@ const videos = {
     walking:  "/assets/videos/session/theme_rainfall/rainfall_metaminds.mp4",
 };
 
-// const videos = {
-//     breathing: "/videos/session/theme_rainfall/rainfall_metaminds.mp4",
-//     session: "/videos/session/theme_rainfall/rainfall_metaminds.mp4",
-//     doodling: "/videos/session/theme_rainfall/rainfall_metaminds.mp4",
-//     walking:  "/videos/session/theme_rainfall/rainfall_metaminds.mp4",
-// };
-
 const sounds = {
     session : new Howl({src:["/assets/audios/session/theme_Rainfall/rainfall_sound_metaminds.mp3"], loop:true}),
-    // break : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
-    // tick : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
-    // breath : new Howl({src:[`/theme/${config.theme}/session.mp3`], loop:true}),
     break : new Howl({src:["/assets/audios/session/theme_Rainfall/rainfall_sound_metaminds.mp3"], loop:true}),
     tick : new Howl({src:["/assets/audios/session/theme_Rainfall/rainfall_sound_metaminds.mp3"], loop:true}),
     breath : new Howl({src:["/assets/audios/session/theme_Rainfall/rainfall_sound_metaminds.mp3"], loop:true}),
@@ -42,6 +34,7 @@ function updateTime(){
     const min = String(Math.floor(remainingTime/60)).padStart(2,"0");
     const sec = String(remainingTime % 60).padStart(2,"0");
     timeleft.innerText = `${min}:${sec}`;
+    timerbar.style.width = 100 - (remainingTime/totalduration * 100) + "%";
 }
 
 function playMedia(videoSrc, audioKey){
@@ -79,10 +72,7 @@ pausebtn.addEventListener("click",() => {
         bgVideo.pause();
     }
     else{
-        // bgVideo.play();
-        // if(audioKey) sounds[audioKey].play();
         playMedia(videos.session, "session");
-
     }
     if(!paused) startTimer();
 });
@@ -122,6 +112,8 @@ function startBreathing(label){
     phaseheading.innerText = `1 min Deep Breathing - ${label}`;
     playMedia(videos.breathing, "breath");
     remainingTime = 60;
+    totalduration = 60;
+    totaltime.innerText = `${remainingTime/60}:00`;
     updateTime();
     startTimer();
 }
@@ -131,6 +123,8 @@ function startSession(label, duration){
     showCanvas(false);
     playMedia(videos.session, "session");
     remainingTime = duration;
+    totalduration = duration;
+    totaltime.innerText = `${remainingTime/60}:00`;
     updateTime();
     startTimer();
 }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome</title>
+  <link rel="stylesheet" href="/output.css" /> <!-- Correct path -->
+</head>
+
+<body class="min-h-screen bg-gradient-to-b from-white to-gray-100 ">
+
+    <% if((typeof(error) !=="undefined" ) && error.length> 0) { %>
+        <div id="error-box"
+            class="z-[999]  absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-red-500">
+            <span class="inline-block mt-1 mb-1 text-white">
+                <%= error %>
+            </span>
+            <div id="progress-bar" class="h-1 bg-white mt-2"></div>
+        </div>
+        <% } %>
+            <% if((typeof(success) !=="undefined" ) && success.length> 0) { %>
+                <div id="error-box"
+                    class="z-[999]  absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-blue-500">
+                    <span class="inline-block mt-1 mb-1 text-white">
+                        <%= success %>
+                    </span>
+                    <div id="progress-bar" class="h-1 bg-white mt-2"></div>
+                </div>
+                <% } %>
+
+
+                    <!-- <%- include('../partials/header') %> -->
+
+                        <div
+                            class="flex flex-col md:flex-row  justify-center items-start gap-[50px] px-4 md:px-10 py-20 mt-20 ">
+                            <!-- Create Account Section -->
+                            <div class="flex flex-col w-[400px]">
+                                <h1 class="text-3xl font-semibold">
+                                    Welcome to <span class="text-blue-500 font-bold">Scatch</span>
+                                </h1>
+                                <p class="text-xl font-semibold mb-2">Create your account</p>
+
+                                <form class="flex flex-col gap-4" method="post" action="/users/register">
+                                    <input class="p-2 rounded bg-gray-100" type="text" placeholder="Full Name"
+                                        name="fullname" />
+                                    <input class="p-2 rounded bg-gray-100" type="text" placeholder="Email"
+                                        name="email" />
+                                    <input class="p-2 rounded bg-gray-100" type="password" placeholder="Password"
+                                        name="password" />
+                                    <input class="rounded-md py-2 px-2 bg-blue-500 text-white cursor-pointer block"
+                                        type="submit" value="Create My Account" />
+                                </form>
+                            </div>
+
+                            <!-- Login Section -->
+                            <div class="flex flex-col w-[400px]">
+                                <h1 class="text-xl font-semibold mb-2 pt-[2.25rem]">Login Your Account</h1>
+                                <form class="flex flex-col gap-4" method="post" action="/users/login">
+                                    <input class="p-2 rounded bg-gray-100 " type="text" placeholder="Email"
+                                        name="email" />
+                                    <input class="p-2 rounded bg-gray-100 " type="password" placeholder="Password"
+                                        name="password" />
+                                    <input class="rounded-md py-2 px-2 bg-blue-500 text-white cursor-pointer block"
+                                        type="submit" value="Login" />
+                                </form>
+                            </div>
+                        </div>
+                        <script src="../javascripts/welcome.js"></script>
+
+</body>
+
+</html>

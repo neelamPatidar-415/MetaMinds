@@ -22,17 +22,25 @@
    </div>
 
    <!-- video set -->
-   <video id="bgVideo" class="absolute top-0 left-0 w-full h-full object-cover z-[-1] opacity-90" autoplay muted loop playinline></video>
+   <video id="bgVideo" class="absolute top-0 left-0 w-full h-full object-cover z-[-2] opacity-90" autoplay muted loop playinline></video>
 
    <!-- fabric canvas -->
    <canvas id="doodlecanvas" class="absolute mx-0 my-0 w-[100%] h-[50%] z-20 bg-red-400 hidden"></canvas>
 
    <!-- overlay content  -->
-   <div class="text-center space-y-6 z-10 mt-[400px]">
+   <div class="text-center space-y-6 z-10 bottom-1 w-[100%] fixed">
       <h1 id="phaseheading" class="text-white text-3xl font-bold">Preparing for Session 1.....</h1>
-      <div id="timerbar" class="text-lg bg-green-50 h-[2px] w-[90%] mx-auto">
-         <span id="timeleft" class="text-2xl"></span>
+
+      <div class="relative w-[90%] mx-auto z-[-1]">
+         <div class="text-lg bg-white h-[5px] rounded-sm flex flex-col justify-center ">
+            <div id="timerbar" class=" bg-green-500 h-[3.5px] rounded-sm"></div>
+         </div>
+         <div class="flex justify-between h-[90px] absolute top-1 w-full">
+            <span id="timeleft" class="text-2xl text-white px-1 py-1"></span>
+            <span id="totaltime" class="text-2xl text-white px-1 py-1"></span>
+         </div>
       </div>
+
       <button id="pausebtn" class="bg-white text-black font-medium px-4 py-2 rounded-full shadow">Resume</button>
    </div>
 

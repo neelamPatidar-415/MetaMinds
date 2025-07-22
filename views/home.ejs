@@ -6,38 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>METAMINDS</title>
     <link rel="stylesheet" href="/output.css" /> <!-- Correct path -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
-<body class="min-h-screen bg-[#2B2B2B] m-0 p-0 flex flex-col">
+<body id="home" class="min-h-screen bg-[#2B2B2B] m-0 p-0 flex flex-col scroll-smooth scroll-pt-24">
     <div class="flex-1">
         <!-- //top main -->
-        <div class="h-auto w-full bg-[#FFDE70]  ">
+        <div class="h-auto w-full bg-[#FFDE70] ">
             <!-- //navbar -->
-            <div
-                class="flex items-center px-4 bg-[#2B2B2B] h-[90px] border border-t-[2px] border-solid border-[#FFDE70]">
+            <div class="fixed top-0 left-0 w-full h-auto backdrop-blur-lg shadow-md">
+                <div class="flex justify-between items-center px-4 bg-[#2B2B2B]/80 h-[90px] border border-t-[2px] border-solid border-[#FFDE70] ">
                 <!-- //logo -->
-                <img class="h-[80px] w-[160px] mt-1 " src="/images/MetaMinds_ Logo white....png" alt="MetaMinds">
-                <!-- //sidebar -->
-                 
-
-
-
-
-
-
-
-
-
-
+                <img class="h-[80px] w-[160px] mt-1 " src="/images/MetaMinds_ Logo white....png" alt="MetaMinds"> 
+                <div id="menubtn" class="text-white text-3xl cursor-pointer">☰</div>
+                </div>
             </div>
+
+            <!-- //sidebar -->  
+            <!-- <div id="sidebar" class="fixed top-0 right-0 h-full w-[300px] pl-2 bg-zinc-500 text-white z-50 text-2xl transform translate-x-full transition duration-300"> -->
+            <div id="sidebar" class="fixed top-0 right-0 h-auto w-[300px] px-4 py-4 pl-2 text-white z-50 text-2xl transform translate-x-full transition-transform duration-300">
+                <div id="menuoffbtn" class="bg-[#313131] text-5xl cursor-pointer text-right rounded-t-xl">×</div>
+                <div class="text-xl text-center bg-[#313131] rounded-b-xl">
+                    <ul class="items-center space-y-2 ">
+                        <li class="border-[1.5px] hover:border-black"><a class="block" href="#home">HOME</a></li>
+                        <li class="border-[1.5px] hover:border-black"><a class="block" href="/users">REGISTER</a></li>
+                        <li class="border-[1.5px] hover:border-black"><a class="block" href="/users">LOGIN</a></li>
+                        <li class="border-[1.5px] hover:border-black"><a class="block" href="">MY PROFILE</a></li>
+                        <li class="border-[1.5px] hover:border-black"><a class="block" href="#learnMetaLearning">LEARN META-LEARNING</a></li>
+                        <li class="border-[1.5px] hover:border-black"><a class="block" href="/Session">START STUDYING</a></li>
+                        <li class="border-[1.5px] hover:border-black"><a class="block" href="#whatpplsay">FEEDBACK</a></li>
+                        <li class="border-[1.5px] hover:border-black"><a class="block" href="#aboutUs">ABOUT US</a></li>
+                        <li class="border-[1.5px] hover:border-black"><a class="block" href="#contactUs">CONTACT US</a></li>
+                        <li class="border-[1.5px] rounded-b-xl hover:border-black"><a class="block" href="/users/logout">LOGOUT</a></li>
+                    </ul>
+                </div>
+            </div>
+
             <!-- //main lofi gurl pic -->
-            <img class="" src="/images/LOFI GRL IMAGE.jpg" alt="sharpMetaMinds">
+            <img class="" src="/images/LOFI GRL IMAGE.jpg" alt="sharpMetaMinds ">
             <!-- //main blue logo  -->
-            <img class="h-[140px] w-[420px]" src="/images/MetaMinds_Logo blue.png" alt="mainLogo">
+            <img class=" h-[140px] w-[420px]" src="/images/MetaMinds_Logo blue.png" alt="mainLogo">
         </div>
 
         <!-- ///here is content of learn : how to learn  -->
-        <div class="ml-1">
+        <div id="learnMetaLearning" class="ml-1 pt-[100px] -mt-[100px]">
             <p class="text-white font-serif">
                 Here’s a solid demo content draft for your project’s “Meta Learning: Learn How to Learn” section. It
                 balances engaging tone + educational depth + practical tips. You can later split this into sections or
@@ -131,12 +143,12 @@
         </div>
 
         <!-- let's start learning  -->
-         <section class="flex justify-center items-center p-8">
-            <a href="^&" class="rounded-full text-[#2B2B2B ] bg-[#FFDE70] border h-[70px] w-[30px] px-4 py-4" >-></a>
+         <section class="flex justify-center items-center p-6">
+            <a href="/index/themes" class="rounded-full text-[#2B2B2B ] bg-[#FFDE70] border h-auto  px-4 py-1 text-3xl w-[60px]" ><i class="fa-solid fa-arrow-right"></i></a>
          </section>
 
         <!-- here is waht ppl say section  -->
-        <h2 class="text-4xl font-medium mb-2 text-center text-white">What People Say</h2>
+        <h2 id="whatpplsay" class="text-4xl font-medium mb-2 text-center text-white pt-[100px] -mt-[100px]">What People Say</h2>
         <section class="bg-[#FFDE70] text-black p-6 flex flex-row gap-3 text-lg font-normal">
             <div class=" p-4 flex-1 flex-row justify-center w-[100px]">
                 <div class="flex items-start gap-2">
@@ -166,17 +178,30 @@
 
 
           <!-- here is about me --> -->
-        <h2 class="text-4xl font-medium mb-2 text-center text-white">About Us</h2>
+        <h2 id="aboutUs" class="text-4xl font-medium mb-2 text-center text-white pt-[100px] -mt-[100px]">About Us</h2>
         <section class="text-white p-8 flex justify-center items-center gap-4 text-lg font-medium">
-            <p>👋 Hey there! I’m Neelam, the creator behind MetaMinds — a passionate learner, builder, and full-stack dev-in-progress. I'm on a mission to help people learn how to learn smarter, not harder.
-This project is close to my heart — built with love, late nights, and lots of curiosity. Whether you're a student, dreamer, or future innovator, I hope this space helps you grow.
-Let’s level up together 🚀  👋 Hey there! I’m Neelam, the creator behind MetaMinds — a passionate learner, builder, and full-stack dev-in-progress. I'm on a mission to help people learn how to learn smarter, not harder.
-This project is close to my heart — built with love, late nights, and lots of curiosity. Whether you're a student, dreamer, or future innovator, I hope this space helps you grow.
-Let’s level up together 🚀  👋 Hey there! I’m Neelam, the creator behind MetaMinds — a passionate learner, builder, and full-stack dev-in-progress. I'm on a mission to help people learn how to learn smarter, not harder.
-This project is close to my heart — built with love, late nights, and lots of curiosity. Whether you're a student, dreamer, or future innovator, I hope this space helps you grow.
-Let’s level up together 🚀</p>
+            <div class="text-white px-6 py-8 max-w-3xl mx-auto space-y-4">
+                <p class="text-2xl font-semibold">Hey there! I’m Neelam, the creator behind <span
+                        class="text-yellow-400">MetaMinds</span> — a space where design meets functionality.</p>
+        
+                <p class="text-lg">
+                    I'm a full-stack developer with an electrical engineering mindset, focused on building scalable, responsive,
+                    and user-centric web apps.
+                </p>
+        
+                <p class="text-lg">
+                    From clean frontend interfaces to solid backend systems, I thrive on turning ideas into real,
+                    production-grade projects. Fast shipping. Clear logic. Continuous learning.
+                </p>
+        
+                <p class="text-lg font-medium text-yellow-300">
+                    Let’s connect — I’m always up for building, collaborating, or crafting elegant solutions that just make
+                    sense.
+                </p>
+            </div>
+        
             <img src="/images/Component 5 about us metaminds.png" alt="My picture">
-        </section> 
+        </section>
 
 
         <!-- here is ask for feedback -->
@@ -195,24 +220,37 @@ Let’s level up together 🚀</p>
         
         <!-- here is contact us -->
         <!-- Contact Us -->
-        <h2 class="text-4xl font-medium mb-2 text-center text-white">Contact Us</h2>
+        <h2 id="contactUs" class="text-4xl font-medium mb-2 text-center text-white pt-[100px] -mt-[100px]">Contact Us</h2>
         <section class="bg-[#FFDE70] text-black p-8 flex flex-col gap-5 text-lg font-medium">
-          <p>Gmail:
-            <a href="##">xxxx</a>
-          </p>
-          <p>Phone: +91-1234567890</p>
-          <p>LinkedIn:
-            <a href="##">xxxx</a>
-          </p>
-          <p>Instagram:
-            <a href="##">xxxx</a>
-          </p>
-          <p>GitHub:
-            <a href="##">xxxx</a>
-          </p>
-          <p>Telegram:
-            <a href="##">xxxx</a>
-          </p>
+            <p class="flex justify-start items-center gap-2"><a href="mailto:neelampatidar415@email.com"><i
+                        class="fa-solid fa-envelope"></i></a>
+                <a href="mailto:neelampatidar415@email.com">neelampatidar415@gmail.com</a>
+            </p>
+        
+            <p class="flex justify-start items-center gap-2"><a href="tel:+919302966541" target="_main"><i class="fa-solid fa-phone"></i></a>
+                <a href="tel:+919302966541" target="_main">+91 9302966541</a>
+            </p>
+        
+            <p class="flex justify-start items-center gap-2"><a href="https://www.linkedin.com/in/neelixdev" target="_main"><i
+                        class="fa-brands fa-linkedin"></i></a>
+                <a href="https://www.linkedin.com/in/neelixdev" target="_main">Neelam Patidar</a>
+            </p>
+        
+            <p class="flex justify-start items-center gap-2"><a href="mailto:neelampatidar415@email.com" target="_main"><i
+                        class="fa-brands fa-github"></i></a>
+                <a href="mailto:neelampatidar415@email.com" target="_main">neelampatidar415@gmail.com</a>
+            </p>
+        
+            <p class="flex justify-start items-center gap-2"><a href="https://github.com/neelamPatidar-415" target="_main"><i
+                        class="fa-brands fa-instagram"></i></a>
+                <a href="https://github.com/neelamPatidar-415" target="_main">neelamPatidar-415</a>
+            </p>
+        
+            <p class="flex justify-start items-center gap-2"><a href="https://t.me/@Neelam_patidar" target="_main"><i
+                        class="fa-brands fa-telegram"></i></a>
+                <a href="https://t.me/@Neelam_patidar" target="_main">@Neelam_patidar</a>
+            </p>
+        
         </section>
     </div>
 
@@ -224,7 +262,7 @@ Let’s level up together 🚀</p>
     </footer>
 
 
-
+    <script src="../javascripts/homeLinks.js"></script>
 </body>
 
 </html>
