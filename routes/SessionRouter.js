@@ -1,18 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const {generate_session_plan} = require('../utils/Session-plan-generator.js');
-const isLoggedIn = require('../middlewares/isLoggedIn.js')
+const isLoggedIn = require('../middlewares/isLoggedIn.js');
+const { SessionStudy} = require("../controllers/SessionStudy.js");
 
-// router.post('/generate-plan', function(req,res){
-    
-// })
 router.get('/',isLoggedIn,function(req,res){
     res.render('theme');
 })
 
-router.post('/study', function(req,res){
-    res.render('session');
-})
+router.post('/study',isLoggedIn, SessionStudy);
 
 module.exports = router;

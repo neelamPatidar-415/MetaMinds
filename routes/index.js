@@ -5,8 +5,8 @@ router.get('/',function(req,res){
     res.render('home');
 })
 
-router.get('/themes', function(req,res){
-    res.render('theme');
-})
+// router.get('/themes', function(req,res){
+//     res.render('theme');
+// })
 
 module.exports = router;

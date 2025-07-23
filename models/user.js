@@ -4,7 +4,7 @@ const userSchema = mongoose.Schema({
     fullname: String,
     email: String,
     password: String,
-    RecommendedSession : [
+    recentSessions : [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref : "session",

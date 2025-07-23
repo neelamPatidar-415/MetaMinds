@@ -1,5 +1,4 @@
 const userModel = require("../models/user.js");
-const sessionThemes = require('../models/session-themes.js');
 
 const bcrypt = require("bcrypt");
 const {generateToken} = require("../utils/generateToken");

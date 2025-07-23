@@ -7,7 +7,7 @@ const dbgr = require("debug")("development:mongoose");
 mongoose
 .connect(process.env.MONGO_URI)
 .then(function(){
-    console.log("Connected");
+    console.log("Connected to MongoDB");
 })
 .catch(function(err){
     console.log(err);

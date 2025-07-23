@@ -25,7 +25,7 @@
    <video id="bgVideo" class="absolute top-0 left-0 w-full h-full object-cover z-[-2] opacity-90" autoplay muted loop playinline></video>
 
    <!-- fabric canvas -->
-   <canvas id="doodlecanvas" class="absolute mx-0 my-0 w-[100%] h-[50%] z-20 bg-red-400 hidden"></canvas>
+   <canvas id="doodleCanvas" class="absolute mx-0 my-0 w-[100%] h-[50%] z-20 bg-red-400 hidden"></canvas>
 
    <!-- overlay content  -->
    <div class="text-center space-y-6 z-10 bottom-1 w-[100%] fixed">
@@ -43,6 +43,10 @@
 
       <button id="pausebtn" class="bg-white text-black font-medium px-4 py-2 rounded-full shadow">Resume</button>
    </div>
+
+   <script>
+    const Session = <%- JSON.stringify(Session) %>;
+   </script>
 
    <script src="../javascripts/sessionscript.js"></script>
 
