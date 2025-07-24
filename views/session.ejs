@@ -7,18 +7,41 @@
     <link rel="stylesheet" href="/output.css" /> <!-- Correct path -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+   <style>
+      .dark-text * {
+         color: black !important;
+      }
+   </style>
+
 </head>
-<body class="m-0 p-0 bg-[#2B2B2B] max-h-screen w-[100%]">
+<body class="m-0 p-0 bg-[#fffdfd] max-h-screen w-[100%]">
+
+   <!-- //overlay asking btn -->
+   <div id="startOverlay"
+      class="fixed top-0 left-0 w-full h-full bg-black text-white flex flex-col items-center justify-center z-50">
+      <h1 class="text-white font-medium text-2xl px-4 py-2 text-center">HERE IS YOUR CUSTOMIZED STUDY PLAN </h1>
+     <ul class="list-none text-black text-xl font-medium text-center">
+        <li class="bg-[#FFDE70] border-[2px] border-black px-3 py-2 my-4 "><a href="##">1ST SESSION : <%= (Session.duration - breakduration)/2 %>  minutes </a></li>
+        <li class="bg-[#FFDE70] border-[2px] border-black px-3 py-2 my-4"><a href="##">BREAK : <%= breakduration %>  minutes</a></li>
+        <li class="bg-[#FFDE70] border-[2px] border-black px-3 py-2 my-4"><a href="">2ND SESSION : <%= (Session.duration - breakduration)/2 %>  minutes</a></li>
+     </ul>
+      <h1 class="text-3xl mb-6">🎧 Ready to vibe?</h1>
+      <button id="startBtn"
+         class="bg-[#00b894] hover:bg-[#019874] text-white text-xl px-6 py-3 rounded-xl shadow-lg transition-all">
+         Start My Focus Session
+      </button>
+   </div>
+
    <!-- //navbar -->
-   <nav class="flex justify-between items-center p-4 text-black">
-      <a href="%%" class="py-2 px-2">HOME</a>
+   <nav class="flex justify-between items-center p-4 text-black mx-7">
+      <a href="%%" class="py-2 px-2 text-2xl font-semibold">HOME</a>
       <!-- //logo -->
-      <img class="h-[80px] w-[160px] mt-1 " src="/images/MetaMinds_ Logo white....png" alt="MetaMinds">
+      <img class="h-[80px] w-[190px] mt-1 " src="/images/MetaMinds_Logo blue.png" alt="MetaMinds">
    </nav>
 
    <div class=" flex justify-between mx-10 my-5 text-2xl ">
-      <a class="px-2 py-2 bg-[#EF476F] w-[150px] h-[50px] text-center" href="">RESTART</a>
-      <a class="px-2 py-2 bg-[#43AA8B] w-[150px] h-[50px] text-center" href="">STOP</a>
+      <a class="px-2 py-2 bg-[#EF476F] w-[150px] h-[50px] text-center" href="javascript:location.reload()">RESTART</a>
+      <a class="px-2 py-2 bg-[#43AA8B] w-[150px] h-[50px] text-center" href="/">STOP</a>
    </div>
 
    <!-- video set -->
@@ -35,19 +58,19 @@
 
    <!-- overlay content  -->
    <div class="text-center space-y-6 z-10 bottom-1 w-[100%] fixed z-2">
-      <h1 id="phaseheading" class="text-white text-3xl font-bold">Preparing for Session 1.....</h1>
+      <h1 id="phaseheading" class="text-black text-3xl font-bold">Preparing for Session 1.....</h1>
 
       <div class="relative w-[90%] mx-auto z-[-1]">
-         <div class="text-lg bg-white h-[5px] rounded-sm flex flex-col justify-center ">
+         <div class="text-lg bg-black h-[5px] rounded-sm flex flex-col justify-center ">
             <div id="timerbar" class=" bg-green-500 h-[3.5px] rounded-sm"></div>
          </div>
-         <div class="flex justify-between h-[90px] absolute top-1 w-full">
-            <span id="timeleft" class="text-2xl text-white px-1 py-1"></span>
-            <span id="totaltime" class="text-2xl text-white px-1 py-1"></span>
+         <div class="flex justify-between h-[90px] absolute top-1 w-full font-medium">
+            <span id="timeleft" class="text-2xl text-black px-1 py-1"></span>
+            <span id="totaltime" class="text-2xl text-black px-1 py-1"></span>
          </div>
       </div>
 
-      <button id="pausebtn" class="bg-white text-black font-medium px-4 py-2 rounded-full shadow">Resume</button>
+      <button id="pausebtn" class="bg-white text-white border-4 border-black font-medium px-4 py-2 rounded-full shadow">Resume</button>
    </div>
 
    <!-- <script>
@@ -70,6 +93,8 @@
 
    <script>
     const Session = <%- JSON.stringify(Session) %>;
+   //  const breakduration = <%= breakduration %>;
+    const breakduration = <%- JSON.stringify(breakduration) %>;
    </script>
 
    <script src="../javascripts/sessionscript.js"></script>

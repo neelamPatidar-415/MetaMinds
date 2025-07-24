@@ -7,37 +7,15 @@ const bgVideo = document.getElementById("bgVideo");
 const timerbar = document.getElementById("timerbar");
 
 let timerInterval, paused = false, remainingTime = 0, phase = 0, canvas, totalduration = 0;
-
-
-
-const canvasElement = document.getElementById("doodleCanvas");
-
-if (canvasElement) {
-  const canvas = new fabric.Canvas("doodleCanvas", {
-    isDrawingMode: true,
-    backgroundColor: "#fefcea",
-  });
-
-  canvas.freeDrawingBrush.width = 10;
-  canvas.freeDrawingBrush.color = "#bca6ff";
-  canvas.renderAll();
-}
-
+let currentMedia = { video: null, audioKey: null };
 
 const config = {
-    firstSessionTime: Session.duration/3,  /// for now lets divide duration into 3 equal parts only
-    breakTime: Session.duration/3,
-    secondSessionTime: Session.duration/3,
-    breakType: Session.breakType,
+    firstSessionTime: (Session.duration - breakduration)/2,  /// for now lets divide duration into 3 equal parts only
+    breakTime: breakduration,
+    secondSessionTime: (Session.duration - breakduration)/2,
+    breakType: Session.breakType,  //walk , breath, doodle
     theme : Session.theme.themeName,
 };
-// const config = {
-//     firstSessionTime:25 * 60,
-//     breakTime: 5 * 60,
-//     secondSessionTime: 25*60,
-//     breakType: Session.theme.breakType,
-//     theme : Session.theme.themeName,
-// };
 
 console.log(Session.duration);
 console.log(Session.breakType);
@@ -46,17 +24,21 @@ console.log(Session.theme.firstaudio);
 console.log(Session.theme.animation);
 
 const videos = {
-    breathing: Session.theme.animation,
     session: Session.theme.animation,
+    // secondsession: Session.theme.animation,
+    deepbreath : "/assets/default/video/finalBreathing.mp4",
+    breathing: "/assets/default/video/finalBreathing.mp4",
     doodling: Session.theme.animation,
     walking:  Session.theme.animation,
 };
 
 const sounds = {
     session : new Howl({src:[Session.theme.firstaudio], loop:true}),
-    break : new Howl({src:[Session.theme.firstaudio], loop:true}),
-    tick : new Howl({src:[Session.theme.firstaudio], loop:true}),
-    breath : new Howl({src:[Session.theme.firstaudio], loop:true}),
+    // secondsession : new Howl({src:[Session.theme.secondaudio], loop:true}),
+    walking : new Howl({src:[Session.theme.firstaudio], loop:true}),
+    breathing : new Howl({src:[Session.theme.firstaudio], loop:true}),
+    doodling : new Howl({src:[Session.theme.firstaudio], loop:true}),
+    tick : new Howl({src:['/assets/default/audio/tick.mp3'], loop:true}),  
 };
 
 function updateTime(){
@@ -66,12 +48,16 @@ function updateTime(){
     timerbar.style.width = 100 - (remainingTime/totalduration * 100) + "%";
 }
 
-function playMedia(videoSrc, audioKey){
-    bgVideo.src = videoSrc;
+function playMedia(videoSrc, audioKey) {
+    if (bgVideo.src !== videoSrc) bgVideo.src = videoSrc;
     bgVideo.play();
-    stopAllAudio();
-    if(audioKey) sounds[audioKey].play();
+
+    sounds[audioKey]?.play();
+
+    currentMedia.video = videoSrc;
+    currentMedia.audioKey = audioKey;
 }
+
 
 function stopAllAudio(){
     Object.values(sounds).forEach(sound => sound.stop());
@@ -88,23 +74,29 @@ function startTimer(){
         }
         else if(remainingTime <= 0){
             clearInterval(timerInterval);
+            // sounds.tick.stop();
+            stopAllAudio();
             nextPhase();
         }
     },1000);
 }
 
-pausebtn.addEventListener("click",() => {
+pausebtn.addEventListener("click", () => {
     paused = !paused;
     pausebtn.innerText = paused ? "Resume" : "Pause";
-    if(paused){
+
+    if (paused) {
         stopAllAudio();
         bgVideo.pause();
+        clearInterval(timer); // stop timer
+    } else {
+        // Resume current media only
+        if (currentMedia.video) bgVideo.play();
+        if (currentMedia.audioKey) sounds[currentMedia.audioKey]?.play();
+        startTimer(); // resume timer
     }
-    else{
-        playMedia(videos.session, "session");
-    }
-    if(!paused) startTimer();
 });
+
 
 function nextPhase(){
     switch(phase){
@@ -126,27 +118,24 @@ function nextPhase(){
 }
 
 function startBreathing(label){
+    document.body.classList.add("dark-text"); 
+
     phaseheading.innerText = `1 min Deep Breathing - ${label}`;
-    playMedia(videos.breathing, "breath");
-    // if (canvas) canvas.clear();
-    // showCanvas(false);
-    remainingTime = 5;  ///60
-    totalduration = 5; ///60
-    // totaltime.innerText = `${remainingTime/60}:00`;
-    totaltime.innerText = `${Math.floor(remainingTime / 60).toString().padStart(2, "0")}:00`;
+    playMedia(videos.deepbreath, "breathing");
+
+    remainingTime = 60;  ///60
+    totalduration = 60; ///60
+    totaltime.innerText = `${Math.floor(remainingTime/60).toString().padStart(2, "0")}:00`;
     updateTime();
     startTimer();
 }
 
 function startSession(label, duration){
     phaseheading.innerText = `${label}`;
-    // if (canvas) canvas.clear();  // Only clear for new sessions
-    // showCanvas(false);
     playMedia(videos.session, "session");
-    remainingTime = duration;
-    totalduration = duration;
-    // totaltime.innerText = `${remainingTime/60}:00`;
-    totaltime.innerText = `${Math.floor(remainingTime / 60).toString().padStart(2, "0")}:00`;
+    remainingTime = duration*60;
+    totalduration = duration*60;
+    totaltime.innerText = `${Math.floor(remainingTime/60).toString().padStart(2, "0")}:00`;
     updateTime();
     startTimer();
 }
@@ -154,15 +143,50 @@ function startSession(label, duration){
 
 function startBreak(){
     phaseheading.innerText = `🍵Break - ${config.breakType}`;
-    const video = config.breakType === "doodle" ? videos.doodling : videos.walking;
-    // if(config.breakType === "doodle"){
-    //     document.getElementById("doodleCanvas").classList.remove("hidden");  
-    //     canvas.isDrawingMode = true;  
-    // }
-    playMedia(video, "break");
-    remainingTime = config.breakTime;
+    let video;
+    if(breakType === "doodle") {
+        video = videos.doodling;
+        playMedia(video, "doodling");
+    }
+    else if(breakType === "walk") {
+        video = videos.walking;
+        playMedia(video, "walking");
+    }
+    else if(breakType === "breath"){
+        video = videos.breathing;
+        playMedia(video, "breathing");
+    }
+    remainingTime = config.breakTime*60;
+    totaltime.innerText = `${Math.floor(remainingTime/60).toString().padStart(2, "0")}:00`;
     updateTime();
     startTimer();
 }
 
-nextPhase();
+// nextPhase();
+document.getElementById("startBtn").addEventListener("click", () => {
+  document.getElementById("startOverlay").style.display = "none";
+
+  // Now safe to start audio/video
+  nextPhase(); // or your main session starter
+});
+
+
+// function playMedia(videoSrc, audioKey){
+//     bgVideo.src = videoSrc;
+//     bgVideo.play();
+//     stopAllAudio();
+//     if(audioKey) sounds[audioKey].play();
+// }
+
+// const canvasElement = document.getElementById("doodleCanvas");
+
+// if (canvasElement) {
+//   const canvas = new fabric.Canvas("doodleCanvas", {
+//     isDrawingMode: true,
+//     backgroundColor: "#fefcea",
+//   });
+
+//   canvas.freeDrawingBrush.width = 10;
+//   canvas.freeDrawingBrush.color = "#bca6ff";
+//   canvas.renderAll();
+// }

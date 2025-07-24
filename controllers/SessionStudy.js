@@ -20,5 +20,16 @@ module.exports.SessionStudy = async function(req,res){
         $push : { recentSessions : newSession._id}
     });
 
-    res.render('session', {Session: newSession});
+    let breakduration = 0;
+    if (newSession.duration === 30) {
+      breakduration = 0;
+    } else if (newSession.duration === 60) {
+      breakduration = 10;
+    } else if (newSession.duration === 90) {
+      breakduration = 10;
+    } else if (newSession.duration === 120) {
+      breakduration = 10;
+    }
+
+    res.render('session', {Session: newSession, breakduration: breakduration || 0});
 }
