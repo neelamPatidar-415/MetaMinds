@@ -10,7 +10,7 @@
 </head>
 <body class="m-0 p-0 bg-[#2B2B2B] max-h-screen w-[100%]">
    <!-- //navbar -->
-   <nav class="flex justify-between items-center p-4 text-white">
+   <nav class="flex justify-between items-center p-4 text-black">
       <a href="%%" class="py-2 px-2">HOME</a>
       <!-- //logo -->
       <img class="h-[80px] w-[160px] mt-1 " src="/images/MetaMinds_ Logo white....png" alt="MetaMinds">
@@ -22,13 +22,19 @@
    </div>
 
    <!-- video set -->
-   <video id="bgVideo" class="absolute top-0 left-0 w-full h-full object-cover z-[-2] opacity-90" autoplay muted loop playinline></video>
+   <video id="bgVideo" class="absolute top-0 left-0 w-full h-full object-cover z-[-1] " autoplay muted loop playinline></video>
 
-   <!-- fabric canvas -->
-   <canvas id="doodleCanvas" class="absolute mx-0 my-0 w-[100%] h-[50%] z-20 bg-red-400 hidden"></canvas>
+   <!-- <div class="w-full h-full flex items-center justify-center ">
+      <canvas id="doodleCanvas" width="900" height="400" class="bg-[#f1daff] border-4 border-[#bca6ff] rounded-xl shadow-xl ">
+      </canvas>
+   </div> -->
+   <!-- <canvas id="doodleCanvas" width="900" height="400"
+  class="bg-[#f1daff] border-4 border-[#bca6ff] rounded-xl shadow-xl hidden">
+</canvas> -->
+
 
    <!-- overlay content  -->
-   <div class="text-center space-y-6 z-10 bottom-1 w-[100%] fixed">
+   <div class="text-center space-y-6 z-10 bottom-1 w-[100%] fixed z-2">
       <h1 id="phaseheading" class="text-white text-3xl font-bold">Preparing for Session 1.....</h1>
 
       <div class="relative w-[90%] mx-auto z-[-1]">
@@ -43,6 +49,24 @@
 
       <button id="pausebtn" class="bg-white text-black font-medium px-4 py-2 rounded-full shadow">Resume</button>
    </div>
+
+   <!-- <script>
+
+      if (canvas) {
+         canvas.dispose(); // clears previous fabric instance
+      }
+      canvas = new fabric.Canvas("doodleCanvas", {
+         isDrawingMode: true,
+         backgroundColor: "#fefcea",
+      });
+
+      canvas.setWidth(width);
+      canvas.setHeight(height);
+      canvas.freeDrawingBrush.width = 5;
+      canvas.freeDrawingBrush.color = "#bca6ff"; // white pen
+      // canvas.isDrawingMode = true;
+      canvas.renderAll();
+   </script> -->
 
    <script>
     const Session = <%- JSON.stringify(Session) %>;

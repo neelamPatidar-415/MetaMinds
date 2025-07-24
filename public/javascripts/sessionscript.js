@@ -3,10 +3,26 @@ const timeleft = document.getElementById("timeleft");
 const totaltime = document.getElementById("totaltime");
 const pausebtn = document.getElementById("pausebtn");
 const bgVideo = document.getElementById("bgVideo");
-const canvasEle = document.getElementById("doodleCanvas");
+// const canvasEle = document.getElementById("doodleCanvas");
 const timerbar = document.getElementById("timerbar");
 
 let timerInterval, paused = false, remainingTime = 0, phase = 0, canvas, totalduration = 0;
+
+
+
+const canvasElement = document.getElementById("doodleCanvas");
+
+if (canvasElement) {
+  const canvas = new fabric.Canvas("doodleCanvas", {
+    isDrawingMode: true,
+    backgroundColor: "#fefcea",
+  });
+
+  canvas.freeDrawingBrush.width = 10;
+  canvas.freeDrawingBrush.color = "#bca6ff";
+  canvas.renderAll();
+}
+
 
 const config = {
     firstSessionTime: Session.duration/3,  /// for now lets divide duration into 3 equal parts only
@@ -24,6 +40,7 @@ const config = {
 // };
 
 console.log(Session.duration);
+console.log(Session.breakType);
 console.log(Session.theme.themeName);
 console.log(Session.theme.firstaudio);
 console.log(Session.theme.animation);
@@ -89,52 +106,6 @@ pausebtn.addEventListener("click",() => {
     if(!paused) startTimer();
 });
 
-// function showCanvas(show){
-//     canvasEle.classList.toggle("hidden", !show);
-//     if(show && !canvas){
-//         canvas = new fabric.Canvas("doodleCanvas", {
-//             isDrawingMode: true,
-//             // backgroundColor: 
-//         });
-//         canvas.freeDrawingBrush.width = 3;
-//         canvas.freeDrawingBrush.color = "#ffffff";
-//     }
-// }
-// function showCanvas(show) {
-//     if ( !canvas) {
-//         canvas = new fabric.Canvas("doodleCanvas", {
-//             isDrawingMode: true,
-//         });
-//         canvas.freeDrawingBrush.width = 3;
-//         canvas.freeDrawingBrush.color = "#ffffff";
-//     }
-
-//     // Only visually show/hide
-//     canvasEle.classList.toggle("hidden", !show);
-//     canvas.isDrawingMode = show;
-// }
-function showCanvas(show) {
-    if (show) {
-        // Unhide first so fabric can measure it
-        canvasEle.classList.remove("hidden");
-
-        // Initialize only once
-        if (!canvas) {
-            canvas = new fabric.Canvas("doodleCanvas", {
-                isDrawingMode: true,
-            });
-            canvas.freeDrawingBrush.width = 3;
-            canvas.freeDrawingBrush.color = "#ffffff";
-        }
-
-        canvas.isDrawingMode = true;
-    } else {
-        // Just hide and disable drawing
-        if (canvas) canvas.isDrawingMode = false;
-        canvasEle.classList.add("hidden");
-    }
-}
-
 function nextPhase(){
     switch(phase){
         case 0:
@@ -157,31 +128,37 @@ function nextPhase(){
 function startBreathing(label){
     phaseheading.innerText = `1 min Deep Breathing - ${label}`;
     playMedia(videos.breathing, "breath");
-    if (canvas) canvas.clear();
-    showCanvas(false);
+    // if (canvas) canvas.clear();
+    // showCanvas(false);
     remainingTime = 5;  ///60
     totalduration = 5; ///60
-    totaltime.innerText = `${remainingTime/60}:00`;
+    // totaltime.innerText = `${remainingTime/60}:00`;
+    totaltime.innerText = `${Math.floor(remainingTime / 60).toString().padStart(2, "0")}:00`;
     updateTime();
     startTimer();
 }
 
 function startSession(label, duration){
     phaseheading.innerText = `${label}`;
-    if (canvas) canvas.clear();
-    showCanvas(false);
+    // if (canvas) canvas.clear();  // Only clear for new sessions
+    // showCanvas(false);
     playMedia(videos.session, "session");
     remainingTime = duration;
     totalduration = duration;
-    totaltime.innerText = `${remainingTime/60}:00`;
+    // totaltime.innerText = `${remainingTime/60}:00`;
+    totaltime.innerText = `${Math.floor(remainingTime / 60).toString().padStart(2, "0")}:00`;
     updateTime();
     startTimer();
 }
 
+
 function startBreak(){
     phaseheading.innerText = `🍵Break - ${config.breakType}`;
     const video = config.breakType === "doodle" ? videos.doodling : videos.walking;
-    showCanvas(config.breakType === "doodle");
+    // if(config.breakType === "doodle"){
+    //     document.getElementById("doodleCanvas").classList.remove("hidden");  
+    //     canvas.isDrawingMode = true;  
+    // }
     playMedia(video, "break");
     remainingTime = config.breakTime;
     updateTime();
@@ -189,5 +166,3 @@ function startBreak(){
 }
 
 nextPhase();
-
-
