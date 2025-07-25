@@ -26,18 +26,18 @@ console.log(Session.theme.animation);
 const videos = {
     session: Session.theme.animation,
     // secondsession: Session.theme.animation,
-    deepbreath : "/assets/default/video/finalBreathing.mp4",
-    breathing: "/assets/default/video/finalBreathing.mp4",
-    doodling: Session.theme.animation,
-    walking:  Session.theme.animation,
+    deepbreath : "/assets/default/video/deepbreathing.mp4",
+    breathing: "/assets/default/video/boxbreathing.mp4",
+    doodling: "/assets/default/video/doodling.mp4",
+    walking:  "/assets/default/video/walking.mp4",
 };
 
 const sounds = {
     session : new Howl({src:[Session.theme.firstaudio], loop:true}),
     // secondsession : new Howl({src:[Session.theme.secondaudio], loop:true}),
-    walking : new Howl({src:[Session.theme.firstaudio], loop:true}),
-    breathing : new Howl({src:[Session.theme.firstaudio], loop:true}),
-    doodling : new Howl({src:[Session.theme.firstaudio], loop:true}),
+    walking : new Howl({src:['/assets/default/audio/walking.mp3'], loop:true}),
+    breathing : new Howl({src:['/assets/default/audio/breathing.mp3'], loop:true}),
+    doodling : new Howl({src:['/assets/default/audio/doodling.mp3'], loop:true}),
     tick : new Howl({src:['/assets/default/audio/tick.mp3'], loop:true}),  
 };
 
@@ -97,31 +97,85 @@ pausebtn.addEventListener("click", () => {
     }
 });
 
-
-function nextPhase(){
-    switch(phase){
-        case 0:
-            startBreathing("Before Session 1"); break;
-        case 1:
-            startSession("Session 1", config.firstSessionTime); break;
-        case 2:
-            startBreak(); break;
-        case 3:
-            startBreathing("Before Session 2"); break;
-        case 4:
-            startSession("Session 2", config.secondSessionTime); break;
-        case 5:
-            phaseheading.innerText = "ALL Sessions are Completed! 🔥🥳";
-            stopAllAudio(); return;
-    }
-    phase++;
+function showVictoryScreen() {
+    document.getElementById("winScreen").classList.remove("hidden");
+    // document.getElementById("mainContent").classList.add("hidden"); // Optional: hide other stuff
 }
 
-function startBreathing(label){
+// function nextPhase(){
+//     switch (phase) {
+//       case 0:
+//         startBreathing("Before Session 1");
+//         break;
+//       case 1:
+//         startSession("Session 1", config.firstSessionTime);
+//         break;
+//       case 2:
+//         startBreak();
+//         break;
+//       case 3:
+//         startBreathing("Before Session 2");
+//         break;
+//       case 4:
+//         startSession("Session 2", config.secondSessionTime);
+//         break;
+//       case 5:
+//         stopAllAudio();
+//         showVictoryScreen();
+//         return;
+//     }
+//     phase++;
+// }
+function nextPhase() {
+  switch (phase) {
+    case 0:
+      startBreathing(
+        "Before Session 1",
+        "Clear the desk, quiet the mind — let’s create a space that helps you win. "
+      );
+      break;
+    case 1:
+      startSession(
+        "Session 1",
+        config.firstSessionTime,
+        "Right here, right now — this is your shot. Make it count."
+      );
+      break;
+    case 2:
+      startBreak(
+        "You just took a solid step forward — now recharge."
+      );
+      break;
+    case 3:
+      startBreathing(
+        "Before Session 2",
+        "Halfway done. Reset your mind — you’ve got more in you."
+      );
+      break;
+    case 4:
+      startSession(
+        "Session 2",
+        config.secondSessionTime,
+        "Last push. Lock in. This is where winners are made.🚀"
+      );
+      break;
+    case 5:
+      phaseheading.innerText = "You Did It! 🏆🔥";
+      phaseSubText.innerText = "Two full sessions. Zero excuses. This is the version of you that wins.";
+      stopAllAudio();
+      showVictoryScreen();
+      return;
+  }
+  phase++;
+}
+
+
+function startBreathing(label, subText){
     document.body.classList.add("dark-text"); 
 
     phaseheading.innerText = `1 min Deep Breathing - ${label}`;
     playMedia(videos.deepbreath, "breathing");
+    phaseSubText.innerText = subText;
 
     remainingTime = 60;  ///60
     totalduration = 60; ///60
@@ -130,8 +184,10 @@ function startBreathing(label){
     startTimer();
 }
 
-function startSession(label, duration){
+function startSession(label, duration, subText){
     phaseheading.innerText = `${label}`;
+    phaseSubText.innerText = subText;
+
     playMedia(videos.session, "session");
     remainingTime = duration*60;
     totalduration = duration*60;
@@ -141,8 +197,10 @@ function startSession(label, duration){
 }
 
 
-function startBreak(){
+function startBreak(subText){
     phaseheading.innerText = `🍵Break - ${config.breakType}`;
+    phaseSubText.innerText = subText;
+
     let video;
     if(breakType === "doodle") {
         video = videos.doodling;
